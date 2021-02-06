@@ -11,12 +11,6 @@ export const Container = styled.div`
   flex-direction: column;
   position: relative;
 
-  img {
-    width: 48px;
-    height: 48px;
-    margin-left: 50%;
-    transform: translateX(-50%)
-  }
 `;
 
 export const Background = styled.div`
@@ -113,4 +107,19 @@ export const AnimationContainer = styled.div`
         margin-right: 16px;
       }
     }
+`;
+
+export const Footer = styled.footer`
+  flex: 1;
+  position: relative;
+
+  img {
+    position: absolute;
+    bottom: 15px;
+
+    width: 48px;
+    height: 48px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
 `;
