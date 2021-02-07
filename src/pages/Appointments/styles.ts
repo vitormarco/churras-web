@@ -75,6 +75,10 @@ export const ListAppointment = styled.div`
 
   > div:nth-child(odd) {
     margin-right: 24px;
+
+    @media(max-width: 485px) {
+      margin-right: 0;
+    }
   }
 `;
 

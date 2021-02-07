@@ -5,12 +5,12 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 0 calc(50% - 24px);
+  flex: 0 calc(50% - 12px);
   margin-bottom: 24px;
   height: 192px;
 
   @media(max-width: 485px) {
-    flex: 0 calc(100% - 24px);
+    flex: 0 100%;
   }
 
 
@@ -52,6 +52,10 @@ export const Footer = styled.footer`
 
   div {
     display: flex;
+
+    span {
+      font-weight: bold;
+    }
 
     svg {
       color: #FFD836;
