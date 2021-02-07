@@ -11,9 +11,15 @@ import iconBbq from '../../../assets/icon_bbq.svg';
 interface AppointmentProps {
   id?: string;
   isCreate?: boolean;
+  date?: string;
+  title?: string;
+  totalPeople?: number;
+  totalCollected?: string;
 }
 
-const Appointment: React.FC<AppointmentProps> = ({ id, isCreate }) => (
+const Appointment: React.FC<AppointmentProps> = ({
+  id, isCreate, date, title, totalCollected, totalPeople,
+}) => (
   isCreate ? (
     <Container>
       <Link to="appointment/create">
@@ -30,19 +36,19 @@ const Appointment: React.FC<AppointmentProps> = ({ id, isCreate }) => (
       <Link to={`appointment/${id}/show`}>
         <Content>
           <div>
-            <h2>01/12</h2>
-            <h3>É os guri</h3>
+            <h2>{date}</h2>
+            <h3>{title}</h3>
           </div>
           <Footer>
             <div>
               <FiUsers size={16} />
-              <span>12</span>
+              <span>{totalPeople}</span>
             </div>
             <div>
               <div>
                 <FiDollarSign size={16} />
               </div>
-              <span>R$ 400</span>
+              <span>{totalCollected}</span>
             </div>
           </Footer>
         </Content>
