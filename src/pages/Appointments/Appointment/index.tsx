@@ -6,6 +6,8 @@ import {
   Container, Content, Footer, ContentCreate,
 } from './styles';
 
+import iconBbq from '../../../assets/icon_bbq.svg';
+
 interface AppointmentProps {
   id?: string;
   isCreate?: boolean;
@@ -14,9 +16,12 @@ interface AppointmentProps {
 const Appointment: React.FC<AppointmentProps> = ({ id, isCreate }) => (
   isCreate ? (
     <Container>
-      <Link to={`appointment/${id}/show`}>
+      <Link to="appointment/create">
         <ContentCreate>
-          <h1>Create</h1>
+          <div>
+            <img src={iconBbq} alt="Barbecue icon" />
+          </div>
+          <h3>Adicionar Churras</h3>
         </ContentCreate>
       </Link>
     </Container>

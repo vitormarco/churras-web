@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { shade } from 'polished';
 
 export const Container = styled.div`
   display: flex;
@@ -25,6 +26,11 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
   background: #fff;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background: #f0f0f0
+  }
 
   height: 100%;
   padding: 24px;
@@ -80,4 +86,32 @@ export const Footer = styled.footer`
   }
 `;
 
-export const ContentCreate = styled.div``;
+export const ContentCreate = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #F1F1F1;
+  transition: background-color 0.2s;
+
+  height: 100%;
+  padding: 24px;
+
+  &:hover {
+    background: ${shade(0.1, '#F1F1F1')}
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin-bottom: 8px;
+
+    background: #FFD836;
+  }
+`;
