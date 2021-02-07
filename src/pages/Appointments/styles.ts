@@ -11,7 +11,7 @@ export const Container = styled.div`
 
 `;
 
-export const Background = styled.div`
+export const Background = styled.header`
   display: flex;
   justify-content: center;
 
@@ -30,6 +30,7 @@ export const Content = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex: 1;
 
   width: 100%;
 `;
@@ -51,23 +52,43 @@ export const AnimationContainer = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  height: 300px;
+  width: 100%;
 
   animation: ${appearFromTop} 1s;
 
+
+`;
+
+export const ListAppointment = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 24px;
+  margin-top: -50px;
+
+
+  background: transparent;
+
+  width: 100%;
+  max-width: 588px;
+
+
+  > div:nth-child(odd) {
+    margin-right: 24px;
+  }
 `;
 
 export const Footer = styled.footer`
   flex: 1;
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   img {
-    position: absolute;
-    bottom: 15px;
+    margin-top: auto;
+    margin-bottom: 15px;
 
     width: 48px;
     height: 48px;
-    margin-left: 50%;
-    transform: translateX(-50%);
   }
 `;

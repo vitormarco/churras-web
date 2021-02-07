@@ -13,7 +13,7 @@ export const Container = styled.div`
 
 `;
 
-export const Background = styled.div`
+export const Background = styled.header`
   display: flex;
   justify-content: center;
 

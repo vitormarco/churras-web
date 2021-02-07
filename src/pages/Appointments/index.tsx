@@ -6,8 +6,10 @@ import {
   Content,
   AnimationContainer,
   Footer,
+  ListAppointment,
 } from './styles';
 import logo from '../../assets/logo.png';
+import Appointment from './Appointment';
 
 const Appointments: React.FC = () => (
   <Container>
@@ -15,7 +17,14 @@ const Appointments: React.FC = () => (
       <h1>Agenda de Churras</h1>
     </Background>
     <Content>
-      <AnimationContainer />
+      <AnimationContainer>
+        <ListAppointment>
+          <Appointment id="123123123" />
+          <Appointment id="123123123" />
+          <Appointment id="123123123" />
+          <Appointment isCreate />
+        </ListAppointment>
+      </AnimationContainer>
     </Content>
     <Footer>
       <img src={logo} alt="Trinca" />
