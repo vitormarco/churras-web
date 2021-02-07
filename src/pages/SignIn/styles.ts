@@ -88,25 +88,6 @@ export const AnimationContainer = styled.div`
         }
       }
     }
-
-    > a {
-      color: #FF9000;
-      display: block;
-      margin-top: 24px;
-      text-decoration: none;
-      transition: color 0.2s;
-
-      display: flex;
-      align-items: center;
-
-      &:hover {
-        color: ${shade(0.2, '#FF9000')}
-      }
-
-      svg {
-        margin-right: 16px;
-      }
-    }
 `;
 
 export const Footer = styled.footer`
