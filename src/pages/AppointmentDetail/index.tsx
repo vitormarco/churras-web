@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { FiUsers, FiDollarSign, FiLoader } from 'react-icons/fi';
-import { useParams } from 'react-router-dom';
+import {
+  FiUsers, FiDollarSign, FiLoader, FiArrowLeft,
+} from 'react-icons/fi';
+import { useParams, Link } from 'react-router-dom';
 import { format } from 'date-fns';
 
 import {
@@ -20,6 +22,7 @@ import logo from '../../assets/logo.png';
 import { useToast } from '../../hooks/toast';
 import api from '../../services/api';
 import formatValue from '../../utils/formatValue';
+import Button from '../../components/Button';
 
 interface IUser {
   id: string;
@@ -131,7 +134,7 @@ const AppointmentDetail: React.FC = () => {
             </Header>
             <ul>
               {appointment.users.map((user: IUser) => (
-                <Item key={user.user_id}>
+                <Item key={user.user_id} paid={user.paid === user.total_to_pay}>
                   <div>
                     <span />
                     <span>{user.name}</span>
@@ -142,6 +145,13 @@ const AppointmentDetail: React.FC = () => {
             </ul>
           </AppointmentInfo>
         </AnimationContainer>
+        <Footer>
+          <Link to="/appointments">
+            <FiArrowLeft size="20" />
+            voltar
+          </Link>
+          <Button>Pagar</Button>
+        </Footer>
       </Content>
       <Footer>
         <img src={logo} alt="Trinca" />

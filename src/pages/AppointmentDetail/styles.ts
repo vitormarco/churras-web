@@ -1,6 +1,11 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
+import { shade } from 'polished';
 
 import signInBackgroundImg from '../../assets/bbq-pattern.png';
+
+interface IItemProps {
+  paid: boolean;
+}
 
 export const Container = styled.div`
   height: 100vh;
@@ -24,15 +29,6 @@ export const Background = styled.header`
   height: 30vh;
 `;
 
-export const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-
-  width: 100%;
-`;
-
 const appearFromTop = keyframes`
   from {
     opacity: 0;
@@ -41,6 +37,46 @@ const appearFromTop = keyframes`
   to {
     opacity: 1;
     transform: translateX(0)
+  }
+`;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+
+  width: 100%;
+
+  footer {
+    justify-content: space-between;
+    width: 100%;
+    max-width: 588px;
+    animation: ${appearFromTop} 1s;
+    margin-top: 25px;
+
+    button {
+      margin-top: 0;
+      width: 150px;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      font-weight: bold;
+      height: 20px;
+      color: #474a51;
+      transition: color 0.2s;
+
+      &:hover {
+        color: ${shade(0.8, '#474a51')}
+      }
+
+      svg {
+        margin-right: 4px;
+      }
+    }
   }
 `;
 
@@ -148,7 +184,7 @@ export const Bottom = styled.div`
 
 `;
 
-export const Item = styled.li`
+export const Item = styled.li<IItemProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -168,16 +204,27 @@ export const Item = styled.li`
       border: 3px solid #998220;
       border-radius: 50%;
       margin-right: 20px;
+
+      ${(props) => props.paid && css`
+        border: 0;
+        background: #FFD836;
+      `}
     }
     span + span {
       border: none;
       width: auto;
       height: auto;
+      background: transparent;
+      text-decoration: none;
     }
   }
 
   span {
     font-weight: bold;
+
+    ${(props) => props.paid && css`
+      text-decoration: line-through;
+    `}
   }
 `;
 
