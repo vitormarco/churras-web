@@ -1,8 +1,9 @@
 import React, { useRef, useCallback } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
-import { FiMail, FiLock } from 'react-icons/fi';
+import { FiMail, FiLock, FiLogIn } from 'react-icons/fi';
 import * as Yup from 'yup';
+import { Link } from 'react-router-dom';
 
 import {
   Container,
@@ -10,6 +11,7 @@ import {
   Content,
   AnimationContainer,
   Footer,
+  FooterForm,
 } from './styles';
 import logo from '../../assets/logo.png';
 import getValidationErrors from '../../utils/getValidationErrors';
@@ -83,6 +85,12 @@ const SignIn: React.FC = () => {
             <Button type="submit">Entrar</Button>
           </Form>
         </AnimationContainer>
+        <FooterForm>
+          <Link to="/signup">
+            <FiLogIn size="20" />
+            cadastrar
+          </Link>
+        </FooterForm>
       </Content>
       <Footer>
         <img src={logo} alt="Trinca" />

@@ -90,6 +90,21 @@ export const AnimationContainer = styled.div`
     }
 `;
 
+export const FooterForm = styled.footer`
+  a {
+    text-decoration: none;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+
+    svg {
+      margin-right: 8px;
+    }
+  }
+`;
+
 export const Footer = styled.footer`
   flex: 1;
   position: relative;
