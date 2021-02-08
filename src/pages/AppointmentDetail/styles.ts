@@ -70,7 +70,7 @@ export const Content = styled.div`
       transition: color 0.2s;
 
       &:hover {
-        color: ${shade(0.8, '#474a51')}
+        color: ${shade(1, '#474a51')}
       }
 
       svg {

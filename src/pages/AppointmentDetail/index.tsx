@@ -5,6 +5,9 @@ import {
 import { useParams, Link } from 'react-router-dom';
 import { format } from 'date-fns';
 
+import api from '../../services/api';
+import { useAuth } from '../../hooks/auth';
+
 import {
   Container,
   Background,
@@ -20,7 +23,6 @@ import {
 } from './styles';
 import logo from '../../assets/logo.png';
 import { useToast } from '../../hooks/toast';
-import api from '../../services/api';
 import formatValue from '../../utils/formatValue';
 import Button from '../../components/Button';
 
@@ -55,7 +57,10 @@ const AppointmentDetail: React.FC = () => {
   const { addToast } = useToast();
   const [loaded, setLoaded] = useState(false);
   const [appointment, setAppointment] = useState<IStateAppointment>({} as IStateAppointment);
+  const [userAlreadyEvent, setUserAlreadyEvent] = useState(false);
+  const [userPaid, setUserPaid] = useState(false);
   const { id_appointment } = useParams<IParams>();
+  const { user } = useAuth();
 
   const getInfos = useCallback(async () => {
     try {
@@ -67,23 +72,38 @@ const AppointmentDetail: React.FC = () => {
         formattedValue: formatValue(data.appointment.total_collected),
       };
 
-      const usersFormatted = data.users.map((user: IUser) => ({
-        ...user,
-        formattedValue: formatValue(user.total_to_pay),
+      const usersFormatted = data.users.map((userInfo: IUser) => ({
+        ...userInfo,
+        formattedValue: formatValue(userInfo.total_to_pay),
       }));
+
+      const userExistingEvent: IUser = data.users.find((el: IUser) => el.user_id === user.id);
+      setUserAlreadyEvent(!!userExistingEvent);
+      if (userExistingEvent) {
+        const userAlreadyPay = userExistingEvent.paid === userExistingEvent.total_to_pay;
+        setUserPaid(userAlreadyPay);
+      }
 
       setAppointment({ users: usersFormatted, appointment: appointmentFormatted });
       setLoaded(true);
     } catch (err) {
-      const { response: { data } } = err;
+      if (err?.response?.data?.message) {
+        const { response: { data } } = err;
 
-      addToast({
-        type: data.status,
-        title: 'Erro ao buscar o evento',
-        description: data.message,
-      });
+        addToast({
+          type: data.status,
+          title: 'Erro ao buscar o evento',
+          description: data.message,
+        });
+      } else {
+        addToast({
+          type: 'error',
+          title: 'Erro no sistema',
+          description: 'Ops, ocorreu algum erro não esperado',
+        });
+      }
     }
-  }, [id_appointment, addToast]);
+  }, [id_appointment, addToast, user.id]);
 
   useEffect(() => {
     getInfos();
@@ -133,13 +153,13 @@ const AppointmentDetail: React.FC = () => {
               </Bottom>
             </Header>
             <ul>
-              {appointment.users.map((user: IUser) => (
-                <Item key={user.user_id} paid={user.paid === user.total_to_pay}>
+              {appointment.users.map((userInfo: IUser) => (
+                <Item key={userInfo.user_id} paid={userInfo.paid === userInfo.total_to_pay}>
                   <div>
                     <span />
-                    <span>{user.name}</span>
+                    <span>{userInfo.name}</span>
                   </div>
-                  <span>{user.formattedValue}</span>
+                  <span>{userInfo.formattedValue}</span>
                 </Item>
               ))}
             </ul>
@@ -150,7 +170,12 @@ const AppointmentDetail: React.FC = () => {
             <FiArrowLeft size="20" />
             voltar
           </Link>
-          <Button>Pagar</Button>
+          {!userPaid && userAlreadyEvent && (
+            <Button>Pagar</Button>
+          )}
+          {!userAlreadyEvent && (
+            <Button>Incluir</Button>
+          )}
         </Footer>
       </Content>
       <Footer>
