@@ -13,7 +13,6 @@ import {
   Background,
   Footer,
   Content,
-  AnimationContainer,
   AppointmentInfo,
   Header,
   Bottom,
@@ -25,6 +24,7 @@ import logo from '../../assets/logo.png';
 import { useToast } from '../../hooks/toast';
 import formatValue from '../../utils/formatValue';
 import Button from '../../components/Button';
+import MainPage from '../../components/MainPage';
 
 interface IUser {
   id: string;
@@ -81,6 +81,10 @@ const AppointmentDetail: React.FC = () => {
       };
 
       newUserAppointment.users.push(newUser);
+      newUserAppointment.appointment.total_people += 1;
+      newUserAppointment.appointment.formattedValue = formatValue(
+        newUserAppointment.appointment.total_collected + data.total_price,
+      );
 
       setAppointment(newUserAppointment);
       setUserAlreadyEvent(newUser);
@@ -180,61 +184,51 @@ const AppointmentDetail: React.FC = () => {
     );
   }
   return (
-    <Container>
-      <Background>
-        <h1>Agenda de Churras</h1>
-      </Background>
-      <Content>
-        <AnimationContainer>
-          <AppointmentInfo>
-            <Header>
-              <Top>
-                <h3>{appointment.appointment.formattedDate}</h3>
-                <div>
-                  <FiUsers size="15" />
-                  <span>{appointment.appointment.total_people}</span>
-                </div>
-              </Top>
-              <Bottom>
-                <h2>{appointment.appointment.title}</h2>
-                <div>
-                  <div>
-                    <FiDollarSign size="12" />
-                  </div>
-                  <span>{appointment.appointment.formattedValue}</span>
-                </div>
-              </Bottom>
-            </Header>
-            <ul>
-              {appointment.users.map((userInfo: IUser) => (
-                <Item key={userInfo.user_id} paid={userInfo.paid === userInfo.total_to_pay}>
-                  <div>
-                    <span />
-                    <span>{userInfo.name}</span>
-                  </div>
-                  <span>{userInfo.formattedValue}</span>
-                </Item>
-              ))}
-            </ul>
-          </AppointmentInfo>
-        </AnimationContainer>
-        <Footer>
-          <Link to="/appointments">
-            <FiArrowLeft size="20" />
-            voltar
-          </Link>
-          {!userPaid && !!userAlreadyEvent && (
-            <Button onClick={handlePay}>Pagar</Button>
-          )}
-          {!userAlreadyEvent && (
-            <Button onClick={handleInclude}>Incluir</Button>
-          )}
-        </Footer>
-      </Content>
+    <MainPage>
+      <AppointmentInfo>
+        <Header>
+          <Top>
+            <h3>{appointment.appointment.formattedDate}</h3>
+            <div>
+              <FiUsers size="15" />
+              <span>{appointment.appointment.total_people}</span>
+            </div>
+          </Top>
+          <Bottom>
+            <h2>{appointment.appointment.title}</h2>
+            <div>
+              <div>
+                <FiDollarSign size="12" />
+              </div>
+              <span>{appointment.appointment.formattedValue}</span>
+            </div>
+          </Bottom>
+        </Header>
+        <ul>
+          {appointment.users.map((userInfo: IUser) => (
+            <Item key={userInfo.user_id} paid={userInfo.paid === userInfo.total_to_pay}>
+              <div>
+                <span />
+                <span>{userInfo.name}</span>
+              </div>
+              <span>{userInfo.formattedValue}</span>
+            </Item>
+          ))}
+        </ul>
+      </AppointmentInfo>
       <Footer>
-        <img src={logo} alt="Trinca" />
+        <Link to="/appointments">
+          <FiArrowLeft size="20" />
+          voltar
+        </Link>
+        {!userPaid && !!userAlreadyEvent && (
+        <Button onClick={handlePay}>Pagar</Button>
+        )}
+        {!userAlreadyEvent && (
+        <Button onClick={handleInclude}>Incluir</Button>
+        )}
       </Footer>
-    </Container>
+    </MainPage>
   );
 };
 
