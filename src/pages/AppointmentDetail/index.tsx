@@ -57,10 +57,63 @@ const AppointmentDetail: React.FC = () => {
   const { addToast } = useToast();
   const [loaded, setLoaded] = useState(false);
   const [appointment, setAppointment] = useState<IStateAppointment>({} as IStateAppointment);
-  const [userAlreadyEvent, setUserAlreadyEvent] = useState(false);
+  const [userAlreadyEvent, setUserAlreadyEvent] = useState({} as IUser);
   const [userPaid, setUserPaid] = useState(false);
   const { id_appointment } = useParams<IParams>();
   const { user } = useAuth();
+
+  const handleInclude = useCallback(async () => {
+    try {
+      const { data } = await api.post(`/appointments/${id_appointment}/users`, {
+        user_id: user.id,
+        total_price: '20.00',
+        paid: 0,
+      });
+
+      const newUserAppointment = { ...appointment };
+      const newUser = {
+        user_id: data.user_id,
+        id: data.id,
+        name: data.name,
+        paid: data.paid,
+        total_to_pay: data.total_price,
+        formattedValue: formatValue(data.total_price),
+      };
+
+      newUserAppointment.users.push(newUser);
+
+      setAppointment(newUserAppointment);
+      setUserAlreadyEvent(newUser);
+    } catch (err) {
+      addToast({
+        type: 'error',
+        title: 'Erro ao incluir usuário',
+        description: 'Ops, ocorreu algum erro não esperado',
+      });
+    }
+  }, [user.id, appointment, id_appointment, addToast]);
+
+  const handlePay = useCallback(async () => {
+    try {
+      const { data } = await api.patch(`/appointments/${userAlreadyEvent.id}/paid`, {
+        paid: Number(userAlreadyEvent.total_to_pay),
+      });
+
+      const payment = { ...appointment };
+      const indexUser = payment.users.findIndex((el) => el.id === userAlreadyEvent.id);
+
+      payment.users[indexUser].paid = data.paid;
+
+      setAppointment(payment);
+      setUserPaid(true);
+    } catch (err) {
+      addToast({
+        type: 'error',
+        title: 'Erro ao pagar',
+        description: 'Ops, ocorreu algum erro não esperado',
+      });
+    }
+  }, [addToast, userAlreadyEvent, appointment]);
 
   const getInfos = useCallback(async () => {
     try {
@@ -78,7 +131,7 @@ const AppointmentDetail: React.FC = () => {
       }));
 
       const userExistingEvent: IUser = data.users.find((el: IUser) => el.user_id === user.id);
-      setUserAlreadyEvent(!!userExistingEvent);
+      setUserAlreadyEvent(userExistingEvent);
       if (userExistingEvent) {
         const userAlreadyPay = userExistingEvent.paid === userExistingEvent.total_to_pay;
         setUserPaid(userAlreadyPay);
@@ -170,11 +223,11 @@ const AppointmentDetail: React.FC = () => {
             <FiArrowLeft size="20" />
             voltar
           </Link>
-          {!userPaid && userAlreadyEvent && (
-            <Button>Pagar</Button>
+          {!userPaid && !!userAlreadyEvent && (
+            <Button onClick={handlePay}>Pagar</Button>
           )}
           {!userAlreadyEvent && (
-            <Button>Incluir</Button>
+            <Button onClick={handleInclude}>Incluir</Button>
           )}
         </Footer>
       </Content>
