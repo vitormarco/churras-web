@@ -7,6 +7,7 @@ import Appointments from '../pages/Appointments';
 import AppointmentDetail from '../pages/AppointmentDetail';
 import AppointmentCreate from '../pages/AppointmentCreate';
 import SignUp from '../pages/SignUp';
+import NotFound from '../pages/404';
 
 const Routes: React.FC = () => (
   <Switch>
@@ -15,6 +16,7 @@ const Routes: React.FC = () => (
     <Route path="/appointments" component={Appointments} isPrivate />
     <Route path="/appointment/:id_appointment/show" component={AppointmentDetail} isPrivate />
     <Route path="/appointment/create" component={AppointmentCreate} isPrivate />
+    <Route component={NotFound} />
   </Switch>
 );
 
